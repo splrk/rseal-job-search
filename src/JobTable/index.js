@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { JobContext } from '../JobStore';
-import JobList from './JobForm';
+import JobTable from './JobTable';
 
 export default () => {
     const { jobs, addNewJob } = useContext(JobContext);
 
-    return <JobList jobs={jobs} onAddJob={addNewJob} />;
+    return <JobTable jobs={jobs} onAddJob={addNewJob} />;
 };

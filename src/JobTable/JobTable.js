@@ -6,7 +6,15 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import IconButton from '@material-ui/core/IconButton';
 import PlusIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+    jobWaiting: {
+        backgroundColor: theme.palette.blue
+    }
+}));
 
 const JobList = ({ jobs, onAddJob }) => {
     const [newJob, updateNewJob] = useState({});
@@ -14,6 +22,7 @@ const JobList = ({ jobs, onAddJob }) => {
         ...newJob,
         [fieldName]: event.target.value
     });
+    const classes = useStyles();
 
     return (
         <Table stickyHeader aria-label="sticky table">
@@ -31,15 +40,19 @@ const JobList = ({ jobs, onAddJob }) => {
             </TableHead>
             <TableBody>
                 {jobs.map(job => (
-                    <TableRow key={job.id}>
-                        <TableCell />
+                    <TableRow className={job.appliedDate && !job.responseDate && classes.jobWaiting} key={job.id}>
+                        <TableCell>
+                            <IconButton>
+                                <EditIcon />
+                            </IconButton>
+                        </TableCell>
                         <TableCell>{job.company}</TableCell>
                         <TableCell>{job.title}</TableCell>
                         <TableCell>{job.applicationLink}</TableCell>
-                        <TableCell>{job.applicationDate}</TableCell>
-                        <TableCell>{job.appliedDate}</TableCell>
+                        <TableCell>{job.applicationDate && job.applicationDate.toLocaleDateString()}</TableCell>
+                        <TableCell>{job.appliedDate && job.appliedDate.toLocaleDateString()}</TableCell>
                         <TableCell>{job.response}</TableCell>
-                        <TableCell>{job.responseDate}</TableCell>
+                        <TableCell>{job.responseDate && job.responseDate.toLocaleDateString()}</TableCell>
                     </TableRow>
                 ))}
                 <TableRow>
