@@ -9,20 +9,26 @@ import PlusIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import cx from 'classnames';
 
 const useStyles = makeStyles(theme => ({
     jobWaiting: {
-        backgroundColor: theme.palette.blue
+        backgroundColor: theme.palette.warning.light
+    },
+
+    jobSelected: {
+        backgroundColor: theme.palette.primary.light
     }
 }));
 
-const JobList = ({ jobs, onAddJob }) => {
+const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob }) => {
     const [newJob, updateNewJob] = useState({});
+    const classes = useStyles();
+
     const onChangeJobField = fieldName => event => updateNewJob({
         ...newJob,
         [fieldName]: event.target.value
     });
-    const classes = useStyles();
 
     return (
         <Table stickyHeader aria-label="sticky table">
@@ -40,7 +46,14 @@ const JobList = ({ jobs, onAddJob }) => {
             </TableHead>
             <TableBody>
                 {jobs.map(job => (
-                    <TableRow className={job.appliedDate && !job.responseDate && classes.jobWaiting} key={job.id}>
+                    <TableRow
+                        className={cx({
+                            [classes.jobWaiting]: job.appliedDate && !job.responseDate,
+                            [classes.jobSelected]: selectedJobId === job.id
+                        })}
+                        key={job.id}
+                        onClick={() => onSelectJob(job.id)}
+                    >
                         <TableCell>
                             <IconButton>
                                 <EditIcon />
