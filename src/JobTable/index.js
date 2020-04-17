@@ -19,10 +19,17 @@ export default () => {
         }
     }
 
+    const onAddJob = job => {
+        return addNewJob(job).then(newJobId => {
+            console.log(newJobId);
+            selectJob(newJobId);
+        });
+    }
+
     return (
         <JobTable
             jobs={jobs}
-            onAddJob={addNewJob}
+            onAddJob={onAddJob}
             selectedJobId={currentJob && currentJob.id}
             onSelectJob={toggleSelectedJob}
         />

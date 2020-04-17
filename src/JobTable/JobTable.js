@@ -31,6 +31,10 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob }) => {
         [fieldName]: event.target.value
     });
 
+    const onSubmitNewJob = () => {
+        onAddJob(newJob).then(() => updateNewJob({}));
+    };
+
     return (
         <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -72,7 +76,7 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob }) => {
                 ))}
                 <TableRow>
                     <TableCell>
-                        <IconButton onClick={() => onAddJob(newJob)}>
+                        <IconButton onClick={onSubmitNewJob}>
                             <PlusIcon />
                         </IconButton>
                     </TableCell>

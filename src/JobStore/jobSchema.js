@@ -16,7 +16,7 @@ yup.addMethod(yup.object, 'unique', function(inputFields) {
             this.parent
                 .filter(testValue => testValue !== value)
                 .some(testValue => fields.reduce((match, field) => (
-                    match && (!testValue[field] || testValue[field] === value[field])
+                    match && (testValue[field] && testValue[field] === value[field])
                 ), true))
         ) {
             throw this.createError({
