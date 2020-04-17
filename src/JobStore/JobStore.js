@@ -28,7 +28,7 @@ const JobProvider = ({ cache, children }) => {
         setStatus('adding');
         
         newJob.id = (jobs.length ? jobs[jobs.length - 1] : 0) + 1;
-        const newjobs = [...jobs, newJob];
+        const newjobs = [...jobs.slice, newJob];
 
         return jobListSchema.validate(newjobs)
             .then(() => {
@@ -49,7 +49,11 @@ const JobProvider = ({ cache, children }) => {
             return Promise.reject(new ValidationError(['Job does not exist']));
         }
         
-        const newjobs = [...jobs, { id, ...job }];
+        const newjobs = [
+            ...jobs.slice(0, oldJobIndex),
+            { id, ...job },
+            ...jobs.slice(oldJobIndex + 1)
+        ];
 
         return jobListSchema.validate(newjobs)
             .then(() => {

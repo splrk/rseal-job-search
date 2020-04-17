@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PlusIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import cx from 'classnames';
 
@@ -37,7 +38,6 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob }) => {
                     <TableCell />
                     <TableCell>Company</TableCell>
                     <TableCell>Title</TableCell>
-                    <TableCell>Link</TableCell>
                     <TableCell>Date Posted</TableCell>
                     <TableCell>Date Applied</TableCell>
                     <TableCell>Response</TableCell>
@@ -57,12 +57,14 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob }) => {
                         <TableCell>
                             <IconButton>
                                 <EditIcon />
+                                <Button variant="contained" color="primary" onClick={() => window.open(job.applicationLink, 'job_application')}>
+                                    Apply
+                                </Button>
                             </IconButton>
                         </TableCell>
                         <TableCell>{job.company}</TableCell>
                         <TableCell>{job.title}</TableCell>
-                        <TableCell>{job.applicationLink}</TableCell>
-                        <TableCell>{job.applicationDate && job.applicationDate.toLocaleDateString()}</TableCell>
+                        <TableCell>{job.postedDate && job.postedDate.toLocaleDateString()}</TableCell>
                         <TableCell>{job.appliedDate && job.appliedDate.toLocaleDateString()}</TableCell>
                         <TableCell>{job.response}</TableCell>
                         <TableCell>{job.responseDate && job.responseDate.toLocaleDateString()}</TableCell>
@@ -90,38 +92,25 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob }) => {
                     </TableCell>
                     <TableCell>
                         <TextField
+                            id="postedDate"
+                            value={newJob.postedDate || ''}
+                            onChange={onChangeJobField('postedDate')}
+                            type="date"
+                            placeholder="Date Posted"
+                        />
+                    </TableCell>
+                    <TableCell colSpan={2}>
+                        <TextField
                             id="applicationLink"
                             value={newJob.applicationLink || ''}
                             onChange={onChangeJobField('applicationLink')}
+                            placeholder="Application Link"
                         />
                     </TableCell>
                     <TableCell>
                         <TextField
-                            id="applicationDate"
-                            value={newJob.applicationDate || ''}
-                            onChange={onChangeJobField('applicationDate')}
-                            type="date"
-                        />
-                    </TableCell>
-                    <TableCell>
-                        <TextField
-                            id="appliedDate"
-                            value={newJob.appliedDate || ''}
-                            onChange={onChangeJobField('appliedDate')}
-                            type="date"
-                        />
-                    </TableCell>
-                    <TableCell>
-                        <TextField
-                            id="response"
-                            value={newJob.responseDate || ''}
-                            onChange={onChangeJobField('response')}
-                        />
-                    </TableCell>
-                    <TableCell>
-                        <TextField
-                            id="responseDate"
-                            value={newJob.responseDate || ''}
+                            id="tags"
+                            value={newJob.tags || ''}
                             onChange={onChangeJobField('responseDate')}
                             type="date"
                         />
