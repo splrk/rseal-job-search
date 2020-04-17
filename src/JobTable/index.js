@@ -8,7 +8,8 @@ export default () => {
         addNewJob,
         currentJob,
         clearCurrentJob,
-        selectJob
+        selectJob,
+        deleteJob
     } = useContext(JobContext);
 
     const toggleSelectedJob = id => {
@@ -26,12 +27,17 @@ export default () => {
         });
     }
 
+    const onDeleteJob = jobId => {
+        deleteJob(jobId);
+    }
+
     return (
         <JobTable
             jobs={jobs}
             onAddJob={onAddJob}
             selectedJobId={currentJob && currentJob.id}
             onSelectJob={toggleSelectedJob}
+            onDeleteJob={onDeleteJob}
         />
     );
 };

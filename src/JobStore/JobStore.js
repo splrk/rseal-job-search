@@ -5,15 +5,14 @@ import { jobListSchema, jobSchema } from './jobSchema';
 const JobContext = React.createContext();
 
 const JobProvider = ({ cache, children }) => {
-    const [jobs, setLocalJobsState] = useState(cache.value);
+    const [jobs, setJobs] = useState(cache.value);
     const [status, setStatus] = useState('idle');
     const [currentJob, setCurrentJob] = useState();
     const [currentJobId, selectJob] = useState();
 
-    const setJobs = jobs => {
-        setLocalJobsState(jobs);
+    useEffect(() => {
         cache.updateValue(jobs);
-    }
+    }, [jobs, cache]);
 
     useEffect(() => {
         if (reach(jobListSchema, '[].id', jobs).isValidSync(currentJobId)) {
@@ -21,7 +20,7 @@ const JobProvider = ({ cache, children }) => {
         }
     }, [currentJobId, jobs]);
     
-    const clearCurrentJob = () => setCurrentJob(undefined);
+    const clearCurrentJob = () => selectJob(undefined);
 
     const addNewJob = (newJob) => {
         setStatus('adding');
@@ -65,8 +64,15 @@ const JobProvider = ({ cache, children }) => {
             });
     }
 
+    const deleteJob = id => {
+        const jobIndex = jobs.findIndex(job => job.id === id);
+        if (jobIndex) {
+            setJobs([...jobs.slice(0, jobIndex), ...jobs.slice(jobIndex + 1)]);
+        }
+    };
+
     return (
-        <JobContext.Provider value={{ jobs, currentJob, selectJob, clearCurrentJob, status, addNewJob, updateJob }}>
+        <JobContext.Provider value={{ jobs, currentJob, selectJob, clearCurrentJob, status, addNewJob, updateJob, deleteJob }}>
             { children }
         </JobContext.Provider>
     );

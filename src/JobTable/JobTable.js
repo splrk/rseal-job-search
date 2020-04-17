@@ -6,11 +6,15 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import IconButton from '@material-ui/core/IconButton';
 import PlusIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
 import { makeStyles } from '@material-ui/core/styles';
 import cx from 'classnames';
+import { DialogActions } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     jobWaiting: {
@@ -22,8 +26,9 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob }) => {
+const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob, onDeleteJob }) => {
     const [newJob, updateNewJob] = useState({});
+    const [deleteJob, setDeleteJob] = useState({});
     const classes = useStyles();
 
     const onChangeJobField = fieldName => event => updateNewJob({
@@ -35,7 +40,13 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob }) => {
         onAddJob(newJob).then(() => updateNewJob({}));
     };
 
+    const handleDeleteJob = () => {
+        onDeleteJob(deleteJob.id);
+        setDeleteJob({});
+    }
+
     return (
+        <>
         <Table stickyHeader aria-label="sticky table">
             <TableHead>
                 <TableRow>
@@ -59,12 +70,14 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob }) => {
                         onClick={() => onSelectJob(job.id)}
                     >
                         <TableCell>
-                            <IconButton>
-                                <EditIcon />
-                                <Button variant="contained" color="primary" onClick={() => window.open(job.applicationLink, 'job_application')}>
-                                    Apply
-                                </Button>
+                            <IconButton
+                                onClick={() => setDeleteJob(job)}
+                            >
+                                <DeleteForeverIcon />
                             </IconButton>
+                            <Button variant="contained" color="primary" onClick={() => window.open(job.applicationLink, 'job_application')}>
+                                Apply
+                            </Button>
                         </TableCell>
                         <TableCell>{job.company}</TableCell>
                         <TableCell>{job.title}</TableCell>
@@ -122,6 +135,23 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob }) => {
                 </TableRow>
             </TableBody>
         </Table>
+        <Dialog open={Boolean(deleteJob.id)}>
+            <DialogTitle>
+                Are you sure you want to Delete this Job?
+            </DialogTitle>
+            <DialogContent>
+                Are you sure you want to delete "{deleteJob.title}" offered at "{deleteJob.company}"
+            </DialogContent>
+            <DialogActions>
+                <Button autoFocus color="primary" onClick={() => setDeleteJob({})}>
+                    Cancel
+                </Button>
+                <Button onClick={handleDeleteJob}>
+                    Yes, Delete Permanently
+                </Button>
+            </DialogActions>
+        </Dialog>
+        </>
     );
 };
 
