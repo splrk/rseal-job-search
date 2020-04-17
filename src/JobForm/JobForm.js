@@ -52,17 +52,32 @@ const JobForm = ({ job, onSubmit, errors }) => {
                         <InputBase className={classes.company} value={fieldValues.company} onChange={changeField('company')} />
                     </Grid>
                     <Grid item xs>
-                        <InputBase type="date" className={classes.postedDate} value={fieldValues.postedDate} onChange={changeField('postedDate')} />
+                        <InputBase
+                            type="date"
+                            className={classes.postedDate}
+                            value={fieldValues.postedDate}
+                            onChange={changeField('postedDate')}
+                        />
                     </Grid>
                 </Grid>
-                <Grid item container>
-                    <Grid item xs>
-                        <InputBase type="text" className={classes.applicationLink} value={fieldValues.applicationLink} onChange={changeField('applicationLink')} />
-                    </Grid>
+                <Grid item container spacing={1}>
                     <Grid item xs={1}>
-                        <Button onClick={() => window.open(fieldValues.applicationLink, 'jobapplication')}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => window.open(fieldValues.applicationLink, 'jobapplication')}
+                        >
                             Apply
                         </Button>
+                    </Grid>
+                    <Grid item xs>
+                        <InputBase
+                            fullWidth
+                            type="text"
+                            className={classes.applicationLink}
+                            value={fieldValues.applicationLink}
+                            onChange={changeField('applicationLink')}
+                        />
                     </Grid>
                 </Grid>
                 <Grid item>

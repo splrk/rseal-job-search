@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { reach, ValidationError } from 'yup';
-import { jobListSchema } from './jobSchema';
+import { jobListSchema, jobSchema } from './jobSchema';
 
 const JobContext = React.createContext();
 
@@ -28,7 +28,7 @@ const JobProvider = ({ cache, children }) => {
         setStatus('adding');
         
         newJob.id = (jobs.length ? jobs[jobs.length - 1] : 0) + 1;
-        const newjobs = [...jobs.slice, newJob];
+        const newjobs = [...jobs.slice, jobSchema.casr(newJob)];
 
         return jobListSchema.validate(newjobs)
             .then(() => {
@@ -51,7 +51,7 @@ const JobProvider = ({ cache, children }) => {
         
         const newjobs = [
             ...jobs.slice(0, oldJobIndex),
-            { id, ...job },
+            { id, ...jobSchema.cast(job) },
             ...jobs.slice(oldJobIndex + 1)
         ];
 
