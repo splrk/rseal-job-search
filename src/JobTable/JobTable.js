@@ -15,12 +15,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import { makeStyles } from '@material-ui/core/styles';
 import cx from 'classnames';
 import { DialogActions } from '@material-ui/core';
-
 import TagsInput from '../TagsInput';
+import ColorTag from '../TagsInput/ColorTag';
 
 const useStyles = makeStyles(theme => ({
     jobWaiting: {
         backgroundColor: theme.palette.warning.light
+    },
+
+    jobResponsed: {
+        backgroundColor: theme.palette.success.light
     },
 
     jobSelected: {
@@ -28,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob, onDeleteJob }) => {
+const JobList = ({ jobs, tagColors, onAddJob, selectedJobId, onSelectJob, onDeleteJob }) => {
     const [newJob, updateNewJob] = useState({});
     const [deleteJob, setDeleteJob] = useState({});
     const classes = useStyles();
@@ -57,8 +61,7 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob, onDeleteJob }) =>
                     <TableCell>Title</TableCell>
                     <TableCell>Date Posted</TableCell>
                     <TableCell>Date Applied</TableCell>
-                    <TableCell>Response</TableCell>
-                    <TableCell>Date Responded</TableCell>
+                    <TableCell colSpan={2}>Tags</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -129,8 +132,16 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob, onDeleteJob }) =>
                         <TableCell>{job.title}</TableCell>
                         <TableCell>{job.postedDate && job.postedDate.toLocaleDateString()}</TableCell>
                         <TableCell>{job.appliedDate && job.appliedDate.toLocaleDateString()}</TableCell>
-                        <TableCell>{job.response}</TableCell>
-                        <TableCell>{job.responseDate && job.responseDate.toLocaleDateString()}</TableCell>
+                        <TableCell colSpan={2}>
+                            {job.tags.map(tag => (
+                                <ColorTag
+                                    key={tag}
+                                    label={tag}
+                                    color={tagColors[tag]}
+                                    size="small"
+                                />
+                            ))}
+                        </TableCell>
                     </TableRow>
                 ))}
             </TableBody>

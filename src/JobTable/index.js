@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { JobContext } from '../JobStore';
 import JobTable from './JobTable';
+import { TagsContext } from '../TagsStore';
 
 export default () => {
     const {
@@ -11,6 +12,16 @@ export default () => {
         selectJob,
         deleteJob
     } = useContext(JobContext);
+    const { tags } = useContext(TagsContext);
+
+    const tagColors = useMemo(() =>
+        Array.from(tags.entries())
+        .reduce((tagColors, [tag, color]) => ({
+            ...tagColors,
+            [tag]: color
+        }), {}),
+        [tags]
+    );
 
     const toggleSelectedJob = id => {
         if (currentJob && id === currentJob.id) {
@@ -34,6 +45,7 @@ export default () => {
         <JobTable
             jobs={jobs}
             onAddJob={onAddJob}
+            tagColors={tagColors}
             selectedJobId={currentJob && currentJob.id}
             onSelectJob={toggleSelectedJob}
             onDeleteJob={onDeleteJob}

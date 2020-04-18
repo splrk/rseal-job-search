@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import InputBase from '@material-ui/core/InputBase';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import EventIcon from '@material-ui/icons/Event';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,9 +32,7 @@ const useStyles = makeStyles(theme => ({
             textAlign: 'right'
         }
     },
-    postedDate: {
-        textAlign: 'left'
-    }
+    postedDate: {}
 }));
 
 const JobForm = ({ job, onSubmit, errors }) => {
@@ -98,8 +96,7 @@ const JobForm = ({ job, onSubmit, errors }) => {
                                 onChange={changeField('company')}
                             />
                         </Grid>
-                        <Grid item xs>
-                            <EventIcon />
+                        <Grid item xs style={{ textAlign: 'center' }}>
                             <InputBase
                                 type="date"
                                 className={classes.postedDate}
@@ -134,7 +131,7 @@ const JobForm = ({ job, onSubmit, errors }) => {
                             onChange={changeField('applicationLink')}
                         />
                     </Grid>
-                    <Grid item container direction="column" xs={2}>
+                    <Grid item container direction="column" xs={4}>
                         <Grid item>
                             {fieldValues.appliedDate && <><CheckCircleIcon color="action" /> Applied On</>}
                             {!fieldValues.appliedDate && <><PriorityHighIcon color="error" />Haven't Applied Yet</>}
@@ -148,6 +145,15 @@ const JobForm = ({ job, onSubmit, errors }) => {
                             />
                         </Grid>
                     </Grid>
+                </Grid>
+                <Grid item>
+                    <TextField
+                        fullWidth
+                        multiline
+                        label="Notes"
+                        value={fieldValues.notes || ''}
+                        onChange={changeField('notes')}
+                     />
                 </Grid>
                 <Grid item>
                     <Button
