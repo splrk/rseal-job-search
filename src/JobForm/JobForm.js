@@ -16,6 +16,11 @@ import TagsInput from '../TagsInput';
 const useStyles = makeStyles(theme => ({
     jobTitle: {
         fontSize: '1.4em',
+        textAlign: 'center',
+        width: '100%'
+    },
+    jobTitleInput: {
+        width: '100%',
         textAlign: 'center'
     },
     errorPaper: {
@@ -75,7 +80,14 @@ const JobForm = ({ job, onSubmit, errors }) => {
                 )}
                 <Grid item container direction="column" spacing={0}>
                     <Grid item>
-                        <InputBase className={classes.jobTitle} value={fieldValues.title} onChange={changeField('title')} />
+                        <InputBase
+                            classes={{
+                                root: classes.jobTitle,
+                                input: classes.jobTitleInput
+                            }}
+                            value={fieldValues.title}
+                            onChange={changeField('title')}
+                        />
                     </Grid>
                     <Grid container item justify="flex-start">
                         <Grid item xs>
