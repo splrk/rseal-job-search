@@ -9,7 +9,7 @@ const TagsInputWithContext = ({ value, onChange, ...props }) => {
         <TagsInput
             value={value}
             onChange={onChange}
-            availableTags={Array.from(tags.entries())}
+            availableTags={tags}
             onAddTag={addTag}
             onChangeTagColor={updateTag}
             {...props}

@@ -6,13 +6,12 @@ const TagsProvider = ({ cache, children }) => {
     const [tags, setTags] = useState(new Map(cache.value));
 
     useEffect(() => {
-        console.log('Caching', Array.from(tags.entries()));
         cache.updateValue(Array.from(tags.entries()));
     }, [tags, cache]);
 
     const updateTag = (tag, color) => {
         const newTags = new Map(tags.entries());
-        newTags.set(tag, 'default');
+        newTags.set(tag, color);
         setTags(newTags); 
     }
 

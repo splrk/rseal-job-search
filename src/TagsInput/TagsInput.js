@@ -1,24 +1,7 @@
 import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Chip from '@material-ui/core/Chip';
 import TextField from '@material-ui/core/TextField';
-
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles(theme => ({
-    red: {
-        backgroundColor: 'red'
-    },
-    default: {
-
-    },
-    green: {
-        backgroundColor: 'green'
-    },
-    blue: {
-        backgroundColor: 'blue'
-    }
-}));
+import ColorTag from './ColorTag';
 
 const TagsInput = ({
     id,
@@ -29,10 +12,6 @@ const TagsInput = ({
     onChangeTagColor,
     size
 }) => {
-    const classes = useStyles();
-
-    console.log(values, availableTags);
-
     const onUpdateTags = (event, value, reason) => {
         console.log(value, reason);
     
@@ -54,15 +33,21 @@ const TagsInput = ({
         <Autocomplete
             multiple
             id={id}
-            options={availableTags.map(([tag]) => tag)}
+            options={Array.from(availableTags.entries()).map(([tag]) => tag)}
             value={values}
             freeSolo
             onChange={onUpdateTags}
             renderTags={(value, getTagProps) =>
                 value.map((option, index) => {
-                    const color = availableTags[index] ? availableTags[index][1] : 'default';
+                    const color = availableTags.has(option) ? availableTags.get(option) : 'default';
                     return (
-                        <Chip size={size} label={option} className={classes[color]} {...getTagProps({ index })} />
+                        <ColorTag
+                            size={size}
+                            label={option}
+                            color={color}
+                            onChange={newColor => onChangeTagColor(option, newColor)}
+                            { ...getTagProps({ index }) }
+                        />
                     );
                 })
             }
