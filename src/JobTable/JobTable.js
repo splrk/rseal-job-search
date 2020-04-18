@@ -16,6 +16,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import cx from 'classnames';
 import { DialogActions } from '@material-ui/core';
 
+import TagsInput from '../TagsInput';
+
 const useStyles = makeStyles(theme => ({
     jobWaiting: {
         backgroundColor: theme.palette.warning.light
@@ -98,11 +100,9 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob, onDeleteJob }) =>
                         />
                     </TableCell>
                     <TableCell>
-                        <TextField
-                            id="tags"
-                            value={newJob.tags || ''}
-                            onChange={onChangeJobField('responseDate')}
-                            type="date"
+                        <TagsInput
+                            value={newJob.tags || []}
+                            onChange={tags => updateNewJob({ ...newJob, tags })}
                         />
                     </TableCell>
                 </TableRow>
