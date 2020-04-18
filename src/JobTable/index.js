@@ -22,7 +22,6 @@ export default () => {
 
     const onAddJob = job => {
         return addNewJob(job).then(newJobId => {
-            console.log(newJobId);
             selectJob(newJobId);
         });
     }

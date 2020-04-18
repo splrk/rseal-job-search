@@ -3,7 +3,7 @@ import { TagsContext } from '../TagsStore';
 import TagsInput from './TagsInput';
 
 const TagsInputWithContext = ({ value, onChange, ...props }) => {
-    const { tags, addTag, updateTag } = useContext(TagsContext);
+    const { tags, addTag, updateTag, deleteTag } = useContext(TagsContext);
 
     return (
         <TagsInput
@@ -12,6 +12,7 @@ const TagsInputWithContext = ({ value, onChange, ...props }) => {
             availableTags={tags}
             onAddTag={addTag}
             onChangeTagColor={updateTag}
+            onDeleteTag={deleteTag}
             {...props}
         />
     );

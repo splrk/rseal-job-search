@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import Chip from '@material-ui/core/Chip';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Divider from '@material-ui/core/Divider';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import yellow from '@material-ui/core/colors/yellow';
 import green from '@material-ui/core/colors/green';
 import blue from '@material-ui/core/colors/blue';
@@ -39,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ColorTag = ({ value, onChange, label, color, ...props }) => {
+const ColorTag = ({ onChange, onDeleteTag, label, color, ...props }) => {
     const anchorEl = useRef(null);
     const [open, setOpen] = useState(false);
     const classes = useStyles();
@@ -47,6 +49,12 @@ const ColorTag = ({ value, onChange, label, color, ...props }) => {
     const changeColor = newColor => () => {
         setOpen(false);
         onChange(newColor);
+    }
+
+    const handleDeleteTag = () => {
+        setOpen(false);
+        props.onDelete();
+        onDeleteTag();
     }
 
     return (
@@ -83,6 +91,11 @@ const ColorTag = ({ value, onChange, label, color, ...props }) => {
                 <MenuItem  onClick={changeColor('yellow')}>
                     <span className={cx(classes.circle, classes.yellow)} />
                     Yellow
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={handleDeleteTag}>
+                    <DeleteForeverIcon />
+                    Delete Tag
                 </MenuItem>
             </Menu>
         </>

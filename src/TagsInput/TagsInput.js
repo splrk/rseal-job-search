@@ -10,11 +10,10 @@ const TagsInput = ({
     availableTags,
     onAddTag,
     onChangeTagColor,
+    onDeleteTag,
     size
 }) => {
     const onUpdateTags = (event, value, reason) => {
-        console.log(value, reason);
-    
         switch (reason) {
         case 'create-option':
             onAddTag(value[value.length - 1]);
@@ -46,6 +45,7 @@ const TagsInput = ({
                             label={option}
                             color={color}
                             onChange={newColor => onChangeTagColor(option, newColor)}
+                            onDeleteTag={() => onDeleteTag(option)}
                             { ...getTagProps({ index }) }
                         />
                     );
