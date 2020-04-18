@@ -60,33 +60,6 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob, onDeleteJob }) =>
                 </TableRow>
             </TableHead>
             <TableBody>
-                {jobs.map(job => (
-                    <TableRow
-                        className={cx({
-                            [classes.jobWaiting]: job.appliedDate && !job.responseDate,
-                            [classes.jobSelected]: selectedJobId === job.id
-                        })}
-                        key={job.id}
-                        onClick={() => onSelectJob(job.id)}
-                    >
-                        <TableCell>
-                            <IconButton
-                                onClick={() => setDeleteJob(job)}
-                            >
-                                <DeleteForeverIcon />
-                            </IconButton>
-                            <Button variant="contained" color="primary" onClick={() => window.open(job.applicationLink, 'job_application')}>
-                                Apply
-                            </Button>
-                        </TableCell>
-                        <TableCell>{job.company}</TableCell>
-                        <TableCell>{job.title}</TableCell>
-                        <TableCell>{job.postedDate && job.postedDate.toLocaleDateString()}</TableCell>
-                        <TableCell>{job.appliedDate && job.appliedDate.toLocaleDateString()}</TableCell>
-                        <TableCell>{job.response}</TableCell>
-                        <TableCell>{job.responseDate && job.responseDate.toLocaleDateString()}</TableCell>
-                    </TableRow>
-                ))}
                 <TableRow>
                     <TableCell>
                         <IconButton onClick={onSubmitNewJob}>
@@ -133,6 +106,33 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob, onDeleteJob }) =>
                         />
                     </TableCell>
                 </TableRow>
+                {jobs.map(job => (
+                    <TableRow
+                        className={cx({
+                            [classes.jobWaiting]: job.appliedDate && !job.responseDate,
+                            [classes.jobSelected]: selectedJobId === job.id
+                        })}
+                        key={job.id}
+                        onClick={() => onSelectJob(job.id)}
+                    >
+                        <TableCell>
+                            <IconButton
+                                onClick={() => setDeleteJob(job)}
+                            >
+                                <DeleteForeverIcon />
+                            </IconButton>
+                            <Button variant="contained" color="primary" onClick={() => window.open(job.applicationLink, 'job_application')}>
+                                Apply
+                            </Button>
+                        </TableCell>
+                        <TableCell>{job.company}</TableCell>
+                        <TableCell>{job.title}</TableCell>
+                        <TableCell>{job.postedDate && job.postedDate.toLocaleDateString()}</TableCell>
+                        <TableCell>{job.appliedDate && job.appliedDate.toLocaleDateString()}</TableCell>
+                        <TableCell>{job.response}</TableCell>
+                        <TableCell>{job.responseDate && job.responseDate.toLocaleDateString()}</TableCell>
+                    </TableRow>
+                ))}
             </TableBody>
         </Table>
         <Dialog open={Boolean(deleteJob.id)}>
