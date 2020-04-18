@@ -121,7 +121,7 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob, onDeleteJob }) =>
                             >
                                 <DeleteForeverIcon />
                             </IconButton>
-                            <Button variant="contained" color="primary" onClick={() => window.open(job.applicationLink, 'job_application')}>
+                            <Button variant="contained" color="primary" onClick={() => window.open(job.applicationLink, 'jobapplication')}>
                                 Apply
                             </Button>
                         </TableCell>
