@@ -47,7 +47,7 @@ const JobList = ({ jobs, onAddJob, selectedJobId, onSelectJob, onDeleteJob }) =>
 
     return (
         <>
-        <Table stickyHeader aria-label="sticky table">
+        <Table stickyHeader size="small" aria-label="sticky table">
             <TableHead>
                 <TableRow>
                     <TableCell />

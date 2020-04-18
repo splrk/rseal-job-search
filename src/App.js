@@ -4,17 +4,32 @@ import { JobProvider } from './JobStore';
 import cache from './JobCache';
 import JobTable from './JobTable';
 import JobForm from './JobForm';
-import './App.css';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    maxHeight: '100vh',
+    maxWidth: '100vw',
+    height: '100vh',
+    width: '100vw',
+    boxSizing: 'border-box',
+  },
+  horizontalScroll: {
+    overflowY: 'scroll',
+    maxHeight: '100%'
+  }
+}))
 
 function App() {
+  const classes = useStyles();
 
   return (
     <JobProvider cache={cache}>
-      <Grid className="App" container direction="row" spacing={0}>
-        <Grid item xs>
+      <Grid className={classes.root} container direction="row" spacing={0}>
+        <Grid className={classes.horizontalScroll} item xs>
           <JobTable />
         </Grid>
-        <Grid item xs>
+        <Grid className={classes.horizontalScroll} item xs>
           <JobForm />
         </Grid>
       </Grid>

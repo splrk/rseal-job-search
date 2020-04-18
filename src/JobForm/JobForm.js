@@ -51,8 +51,7 @@ const JobForm = ({ job, onSubmit, errors }) => {
     const changeDateField = fieldName => changeField(fieldName, parseISO);
 
     return (
-        <Paper variant="outlined" square>
-            <Grid container direction="column" spacing={3}>
+            <Grid container direction="column" spacing={0}>
                 { errors && errors.length > 0 && (
                     <Grid item>
                         <Paper className={classes.errorPaper}>
@@ -92,7 +91,7 @@ const JobForm = ({ job, onSubmit, errors }) => {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item container spacing={1}>
+                <Grid item container spacing={0}>
                     <Grid item xs={1}>
                         <Button
                             variant="contained"
@@ -136,7 +135,6 @@ const JobForm = ({ job, onSubmit, errors }) => {
                     </Button>
                 </Grid>
             </Grid>
-        </Paper>
     );
 };
 
