@@ -11,10 +11,12 @@ import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { makeStyles } from '@material-ui/core/styles';
 import { format, parseISO } from 'date-fns';
+import TagsInput from '../TagsInput';
 
 const useStyles = makeStyles(theme => ({
     jobTitle: {
-        fontSize: '1.4em'
+        fontSize: '1.4em',
+        textAlign: 'center'
     },
     errorPaper: {
         backgroundColor: theme.palette.danger
@@ -38,17 +40,21 @@ const JobForm = ({ job, onSubmit, errors }) => {
         setFields(job);
     }, [job]);
 
-    const changeField = (fieldName, transform = v => v) => event => {
+    const fromEvent = event => event.target.value;
+
+    const changeSingleField = (fieldName, transform = v => v) => value => {
         const { [fieldName]: oldValue, ...oldValues } = fieldValues;
-        if (event.target.value) {
-            const newValue = transform(event.target.value);
+        if (value) {
+            const newValue = transform(value);
             setFields({ ...oldValues, [fieldName]: newValue });
         } else {
             setFields(oldValues);
         }
     }
 
-    const changeDateField = fieldName => changeField(fieldName, parseISO);
+    const changeField = fieldName => changeSingleField(fieldName, fromEvent);
+
+    const changeDateField = fieldName => changeSingleField(fieldName, v => parseISO(fromEvent(v)));
 
     return (
             <Grid container direction="column" spacing={0}>
@@ -87,6 +93,12 @@ const JobForm = ({ job, onSubmit, errors }) => {
                                 className={classes.postedDate}
                                 value={fieldValues.postedDate && format(fieldValues.postedDate, 'yyyy-MM-dd')}
                                 onChange={changeDateField('postedDate')}
+                            />
+                        </Grid>
+                        <Grid item xs>
+                            <TagsInput
+                                value={fieldValues.tags}
+                                onChange={changeSingleField('tags')}
                             />
                         </Grid>
                     </Grid>
