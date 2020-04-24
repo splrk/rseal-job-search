@@ -24,7 +24,6 @@ const ResponseSelect = (props) => (
 const ResponsesForm = ({ responses = [], onChange }) => {
     const [newRespose, setNewResponse] = useState();
     const [newDate, setNewDate] = useState(new Date());
-    console.log(responses);
 
     const updateResponse = (value, index) => {
         onChange([
@@ -47,7 +46,6 @@ const ResponsesForm = ({ responses = [], onChange }) => {
     };
 
     const addResponse = () => {
-        console.log(onChange, newRespose, newDate);
         onChange([
             ...responses,
             { response: newRespose, date: newDate } 
@@ -56,7 +54,6 @@ const ResponsesForm = ({ responses = [], onChange }) => {
 
     const removeResponse = event => {
         const index = event.target.dataset.index;
-        console.log(event.target);
         onChange([
             ...responses.splice(0, index),
             ...responses.splice(index + 1)
