@@ -50,7 +50,6 @@ const JobForm = ({ job, onSubmit, errors, ...props }) => {
     const changeSingleField = (fieldName, transform = v => v) => value => {
         const { [fieldName]: oldValue, ...oldValues } = fieldValues;
         if (value) {
-            console.log(fieldName, value);
             const newValue = transform(value);
             setFields({ ...oldValues, [fieldName]: newValue });
         } else {
@@ -61,8 +60,6 @@ const JobForm = ({ job, onSubmit, errors, ...props }) => {
     const changeField = fieldName => changeSingleField(fieldName, fromEvent);
 
     const changeDateField = fieldName => changeSingleField(fieldName, v => parseISO(fromEvent(v)));
-
-    console.log('state', fieldValues.responses);
 
     return (
             <Grid
