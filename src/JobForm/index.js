@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { JobContext } from '../JobStore'
 import JobForm from './JobForm';
 
-const JobFormWithContext = () => {
+const JobFormWithContext = (props) => {
     const [errors, setErrors] = useState({});
     const { currentJob, updateJob, addNewJob } = useContext(JobContext);
 
@@ -16,7 +16,7 @@ const JobFormWithContext = () => {
 
 
     return currentJob ? (
-        <JobForm job={currentJob} onSubmit={saveJobForm} errors={errors}/>
+        <JobForm {...props} job={currentJob} onSubmit={saveJobForm} errors={errors} />
     ) : (
         null
     );

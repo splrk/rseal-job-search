@@ -10,8 +10,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { makeStyles } from '@material-ui/core/styles';
+import grey from '@material-ui/core/colors/grey';
 import { format, parseISO } from 'date-fns';
 import TagsInput from '../TagsInput';
+import ResponsesForm from './ResponsesForm';
 
 const useStyles = makeStyles(theme => ({
     jobTitle: {
@@ -27,7 +29,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.danger
     },
     company: {
-        color: 'gray',
+        color: grey[400],
         '& input': {
             textAlign: 'right'
         }
@@ -35,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     postedDate: {}
 }));
 
-const JobForm = ({ job, onSubmit, errors }) => {
+const JobForm = ({ job, onSubmit, errors, ...props }) => {
     const [fieldValues, setFields] = useState(job);
     const classes = useStyles();
 
@@ -48,6 +50,7 @@ const JobForm = ({ job, onSubmit, errors }) => {
     const changeSingleField = (fieldName, transform = v => v) => value => {
         const { [fieldName]: oldValue, ...oldValues } = fieldValues;
         if (value) {
+            console.log(fieldName, value);
             const newValue = transform(value);
             setFields({ ...oldValues, [fieldName]: newValue });
         } else {
@@ -59,8 +62,15 @@ const JobForm = ({ job, onSubmit, errors }) => {
 
     const changeDateField = fieldName => changeSingleField(fieldName, v => parseISO(fromEvent(v)));
 
+    console.log('state', fieldValues.responses);
+
     return (
-            <Grid container direction="column" spacing={0}>
+            <Grid
+                container
+                direction="column"
+                spacing={0}
+                {...props}
+            >
                 { errors && errors.length > 0 && (
                     <Grid item>
                         <Paper className={classes.errorPaper}>
@@ -145,6 +155,12 @@ const JobForm = ({ job, onSubmit, errors }) => {
                             />
                         </Grid>
                     </Grid>
+                </Grid>
+                <Grid item>
+                    <ResponsesForm
+                        responses={fieldValues.responses}
+                        onChange={changeSingleField('responses')}
+                    />
                 </Grid>
                 <Grid item>
                     <TextField

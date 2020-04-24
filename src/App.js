@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
   horizontalScroll: {
     overflowY: 'scroll',
-    maxHeight: '100%'
+    maxHeight: '100%',
   }
 }));
 
@@ -36,9 +36,7 @@ function App() {
           <Grid className={classes.horizontalScroll} item xs>
             <JobTable />
           </Grid>
-          <Grid className={classes.horizontalScroll} item xs>
-            <JobForm />
-          </Grid>
+          <JobForm className={classes.horizontalScroll} item xs />
         </Grid>
       </TagsProvider>
     </JobProvider>

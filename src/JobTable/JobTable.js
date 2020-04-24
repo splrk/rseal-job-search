@@ -13,26 +13,45 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import { makeStyles } from '@material-ui/core/styles';
+import grey from '@material-ui/core/colors/grey';
 import cx from 'classnames';
-import { DialogActions } from '@material-ui/core';
+import { DialogActions, Select, MenuItem } from '@material-ui/core';
 import TagsInput from '../TagsInput';
 import ColorTag from '../TagsInput/ColorTag';
+import ResponseTypes from '../JobStore/ResponseTypes';
 
 const useStyles = makeStyles(theme => ({
     jobWaiting: {
         backgroundColor: theme.palette.warning.light
     },
 
-    jobResponsed: {
+    jobResponded: {
         backgroundColor: theme.palette.success.light
     },
 
     jobSelected: {
         backgroundColor: theme.palette.primary.light
+    },
+
+    jobRejected: {
+        '& td': {
+            color: grey[300]
+        }
     }
 }));
 
+const isJobActive = job => {
+    if (Array.isArray(job.responses) && job.responses.length > 0) {
+        if (job.responses[job.responses.length - 1].response === ResponseTypes.rejected) {
+            return false;
+        }
+    }
+
+    return !job.expired;
+}
+
 const JobList = ({ jobs, tagColors, onAddJob, selectedJobId, onSelectJob, onDeleteJob }) => {
+    const [showHidden, setShowHidden] = useState(false);
     const [newJob, updateNewJob] = useState({});
     const [deleteJob, setDeleteJob] = useState({});
     const classes = useStyles();
@@ -51,12 +70,23 @@ const JobList = ({ jobs, tagColors, onAddJob, selectedJobId, onSelectJob, onDele
         setDeleteJob({});
     }
 
+    const handleChangeFilter = event => {
+        setShowHidden(event.target.value);
+    }
+
+    const displayJobs = showHidden ? jobs : jobs.filter(isJobActive);
+
     return (
         <>
         <Table stickyHeader size="small" aria-label="sticky table">
             <TableHead>
                 <TableRow>
-                    <TableCell />
+                    <TableCell>
+                        <Select value={showHidden} onChange={handleChangeFilter}>
+                            <MenuItem value={false}>Show Active</MenuItem>
+                            <MenuItem value={true}>Show All</MenuItem>
+                        </Select>
+                    </TableCell>
                     <TableCell>Company</TableCell>
                     <TableCell>Title</TableCell>
                     <TableCell>Date Posted</TableCell>
@@ -109,11 +139,12 @@ const JobList = ({ jobs, tagColors, onAddJob, selectedJobId, onSelectJob, onDele
                         />
                     </TableCell>
                 </TableRow>
-                {jobs.map(job => (
+                {displayJobs.map(job => (
                     <TableRow
                         className={cx({
-                            [classes.jobWaiting]: job.appliedDate && !job.responseDate,
-                            [classes.jobSelected]: selectedJobId === job.id
+                            [classes.jobWaiting]: job.appliedDate && !job.responseDate && isJobActive(job),
+                            [classes.jobSelected]: selectedJobId === job.id,
+                            [classes.jobRejected]: showHidden && !isJobActive(job)
                         })}
                         key={job.id}
                         onClick={() => onSelectJob(job.id)}

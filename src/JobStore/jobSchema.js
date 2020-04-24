@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import ResponseTypes from './ResponseTypes';
 
 yup.addMethod(yup.object, 'unique', function(inputFields) {
     let fields = inputFields;
@@ -36,13 +37,16 @@ const jobSchema = yup.object().shape({
     location: yup.string().required().default('Johannesburg, ZA'),
     postedDate: yup.date().notRequired(),
     appliedDate: yup.date().notRequired(),
-    response: yup.string().notRequired(),
-    responseDate: yup.date().notRequired(),
+    responses: yup.array().of(yup.object().shape({
+        response: yup.string().matches(new RegExp(Object.values(ResponseTypes).join('|'))).required(),
+        date: yup.date().required()
+    })).notRequired(),
     linkedin: yup.string().url().notRequired(),
     glassdoor: yup.string().url().notRequired(),
     indeed: yup.string().url().notRequired(),
     notes: yup.string().notRequired(),
-    tags: yup.array().of(yup.string()).default([])
+    tags: yup.array().of(yup.string()).default([]),
+    expired: yup.bool().default(false)
 })
 .unique(['id'])
 .unique(['company', 'title'])
